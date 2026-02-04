@@ -1,0 +1,156 @@
+{
+  "custom": {
+    "swift": "",
+    "code": "",
+    "name": {
+      "en": "-",
+      "cz": "-",
+      "sk": "-",
+      "hu": "-",
+      "ua": "-"
+    }
+  },
+  "365bank": {
+    "swift": "POBNSKBA",
+    "code": "6500",
+    "name": {
+      "en": "365 Banka",
+      "cz": "365 Banka",
+      "sk": "365 Banka",
+      "hu": "365 Banka",
+      "ua": "365 Banka"
+    }
+  },
+  "Fio": {
+    "swift": "FIOZSKBA",
+    "code": "8330",
+    "name": {
+      "en": "Fio banka",
+      "cz": "Fio banka",
+      "sk": "Fio banka",
+      "hu": "Fio banka",
+      "ua": "Fio banka"
+    }
+  },
+  "JAT": {
+    "swift": "JTBPSKBA",
+    "code": "8320",
+    "name": {
+      "en": "J&T banka",
+      "cz": "J&T banka",
+      "sk": "J&T banka",
+      "hu": "J&T banka",
+      "ua": "J&T banka"
+    }
+  },
+  "mBank": {
+    "swift": "BREXSKBX",
+    "code": "8360",
+    "name": {
+      "en": "mBank",
+      "cz": "mBank",
+      "sk": "mBank",
+      "hu": "mBank",
+      "ua": "mBank"
+    }
+  },
+  "Postova": {
+    "swift": "POBNSKBA",
+    "code": "6500",
+    "name": {
+      "en": "Poštová banka",
+      "cz": "Poštová banka",
+      "sk": "Poštová banka",
+      "hu": "Poštová banka",
+      "ua": "Poštová banka"
+    }
+  },
+  "Prima": {
+    "swift": "KOMASK2X",
+    "code": "5600",
+    "name": {
+      "en": "Prima Banka",
+      "cz": "Prima Banka",
+      "sk": "Prima Banka",
+      "hu": "Prima Banka",
+      "ua": "Prima Banka"
+    }
+  },
+  "Raiffeisen": {
+    "swift": "TATRSKBX",
+    "code": "1100",
+    "name": {
+      "en": "Raiffeisen Banka",
+      "cz": "Raiffeisen Banka",
+      "sk": "Raiffeisen Banka",
+      "hu": "Raiffeisen Banka",
+      "ua": "Raiffeisen Banka"
+    }
+  },
+  "Revolut": {
+    "swift": "REVOLT21",
+    "code": "",
+    "name": {
+      "en": "Revolut",
+      "cz": "Revolut",
+      "sk": "Revolut",
+      "hu": "Revolut",
+      "ua": "Revolut"
+    }
+  },
+  "Slsp": {
+    "swift": "GIBASKBX",
+    "code": "0900",
+    "name": {
+      "en": "Slovenská sporiteľňa",
+      "cz": "Slovenská sporiteľňa",
+      "sk": "Slovenská sporiteľňa",
+      "hu": "Slovenská sporiteľňa",
+      "ua": "Slovenská sporiteľňa"
+    }
+  },
+  "Tatrabank": {
+    "swift": "TATRSKBX",
+    "code": "1100",
+    "name": {
+      "en": "Tatra Banka",
+      "cz": "Tatra Banka",
+      "sk": "Tatra Banka",
+      "hu": "Tatra Banka",
+      "ua": "Tatra Banka"
+    }
+  },
+  "Unicredit": {
+    "swift": "UNCRSKBX",
+    "code": "1111",
+    "name": {
+      "en": "Unicredit",
+      "cz": "Unicredit",
+      "sk": "Unicredit",
+      "hu": "Unicredit",
+      "ua": "Unicredit"
+    }
+  },
+  "VUB": {
+    "swift": "SUBASKBX",
+    "code": "0200",
+    "name": {
+      "en": "VUB",
+      "cz": "VUB",
+      "sk": "VUB",
+      "hu": "VUB",
+      "ua": "VUB"
+    }
+  },
+  "CSOB": {
+    "swift": "CEKOSKBXXXX",
+    "code": "7500",
+    "name": {
+      "en": "ČSOB",
+      "cz": "ČSOB",
+      "sk": "ČSOB",
+      "hu": "ČSOB",
+      "ua": "ČSOB"
+    }
+  }
+}

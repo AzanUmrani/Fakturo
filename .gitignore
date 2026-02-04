@@ -1,0 +1,40 @@
+# PHP / Laravel
+.phpunit.cache
+.phpunit.result.cache
+.phpactor.json
+/vendor
+.env
+.env.backup
+.env.production
+auth.json
+Homestead.json
+Homestead.yaml
+
+# Node / Frontend
+/node_modules
+npm-debug.log
+yarn-error.log
+/public/build
+/public/hot
+
+# Storage & Runtime
+/public/storage
+/storage/*.key
+/storage/pail
+
+# SSR
+/bootstrap/ssr
+
+# IDEs & Editors
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.zed
+
+# Archives
+*.zip
+
+# OS / Misc
+*.log
+*Zone.Identifier

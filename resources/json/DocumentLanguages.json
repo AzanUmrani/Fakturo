@@ -1,0 +1,38 @@
+{
+  "EN": {
+    "name": {
+      "en": "English",
+      "cz": "Anglicky",
+      "sk": "Anglicky",
+      "hu": "Angol",
+      "ua": "Англійська"
+    }
+  },
+  "CZ": {
+    "name": {
+      "en": "Czech",
+      "cz": "Česky",
+      "sk": "Česky",
+      "hu": "Cseh",
+      "ua": "Чеська"
+    }
+  },
+  "SK": {
+    "name": {
+      "en": "Slovak",
+      "cz": "Slovensky",
+      "sk": "Slovensky",
+      "hu": "Szlovák",
+      "ua": "Словацька"
+    }
+  },
+  "UA": {
+    "name": {
+      "en": "Ukrainian",
+      "cz": "Ukrajinsky",
+      "sk": "Ukrajinsky",
+      "hu": "Ukrán",
+      "ua": "Українська"
+    }
+  }
+}

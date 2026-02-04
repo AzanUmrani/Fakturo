@@ -1,0 +1,38 @@
+{
+  "all": {
+    "name": {
+      "en": "All",
+      "cz": "Vše",
+      "sk": "Všetko",
+      "hu": "Minden",
+      "ua": "Всі"
+    }
+  },
+  "paid": {
+    "name": {
+      "en": "Paid",
+      "cz": "Zaplaceno",
+      "sk": "Zaplatené",
+      "hu": "Fizetve",
+      "ua": "Сплачено"
+    }
+  },
+  "unpaid": {
+    "name": {
+      "en": "Unpaid",
+      "cz": "Nezaplaceno",
+      "sk": "Nezaplatené",
+      "hu": "Nem fizetve",
+      "ua": "Не сплачено"
+    }
+  },
+  "overdue": {
+    "name": {
+      "en": "Overdue",
+      "cz": "Po splatnosti",
+      "sk": "Po splatnosti",
+      "hu": "Késedelmes",
+      "ua": "Просрочено"
+    }
+  }
+}

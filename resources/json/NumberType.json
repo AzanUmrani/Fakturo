@@ -1,0 +1,20 @@
+{
+  "positive": {
+    "name": {
+      "en": "Positive (+)",
+      "cz": "Pozitivní (+)",
+      "sk": "Kladná (+)",
+      "hu": "Pozitív (+)",
+      "ua": "позитивний (+)"
+    }
+  },
+  "negative": {
+    "name": {
+      "en": "Negative (-)",
+      "cz": "Záporná (-)",
+      "sk": "Záporná (-)",
+      "hu": "Negatív (-)",
+      "ua": "негативний (-)"
+    }
+  }
+}

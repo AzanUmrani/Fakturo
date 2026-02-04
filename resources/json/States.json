@@ -1,0 +1,65 @@
+{
+  "AT": {
+    "name": {
+      "en": "Austria",
+      "cz": "Rakousko",
+      "sk": "Rakúsko",
+      "hu": "Ausztria",
+      "ua": "Австрія"
+    }
+  },
+  "CZ": {
+    "name": {
+      "en": "Czech Republic",
+      "cz": "Česká republika",
+      "sk": "Česká republika",
+      "hu": "Csehország",
+      "ua": "Чехія"
+    }
+  },
+  "DE": {
+    "name": {
+      "en": "Germany",
+      "cz": "Německo",
+      "sk": "Nemecko",
+      "hu": "Németország",
+      "ua": "Німеччина"
+    }
+  },
+  "HU": {
+    "name": {
+      "en": "Hungary",
+      "cz": "Maďarsko",
+      "sk": "Maďarsko",
+      "hu": "Magyarország",
+      "ua": "Угорщина"
+    }
+  },
+  "PL": {
+    "name": {
+      "en": "Poland",
+      "cz": "Polsko",
+      "sk": "Poľsko",
+      "hu": "Lengyelország",
+      "ua": "Польща"
+    }
+  },
+  "SI": {
+    "name": {
+      "en": "Slovenia",
+      "cz": "Slovinsko",
+      "sk": "Slovinsko",
+      "hu": "Szlovénia",
+      "ua": "Словенія"
+    }
+  },
+  "SK": {
+    "name": {
+      "en": "Slovakia",
+      "cz": "Slovensko",
+      "sk": "Slovensko",
+      "hu": "Szlovákia",
+      "ua": "Словаччина"
+    }
+  }
+}

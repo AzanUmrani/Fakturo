@@ -1,0 +1,38 @@
+{
+  "YEAR:4;NUMBER:4": {
+    "name": {
+      "en": "YYYYCCCC (20250001)",
+      "cz": "RRRRCCCC (20250001)",
+      "sk": "RRRRCCCC (20250001)",
+      "hu": "RRRRÉÉÉÉ (20250001)",
+      "ua": "РРРРCCCC (20250001)"
+    }
+  },
+  "YEAR:4;NUMBER:3": {
+    "name": {
+      "en": "YYYYCCC (2025001)",
+      "cz": "RRRRCCC (2025001)",
+      "sk": "RRRRCCC (2025001)",
+      "hu": "RRRRÉÉÉ (2025001)",
+      "ua": "РРРРCCC (2025001)"
+    }
+  },
+  "NUMBER:3;YEAR:4": {
+    "name": {
+      "en": "CCCYYYY (0012025)",
+      "cz": "CCCRRRR (0012025)",
+      "sk": "CCCRRRR (0012025)",
+      "hu": "CCCÉÉÉÉ (0012025)",
+      "ua": "СССРРРР (0012025)"
+    }
+  },
+  "NUMBER:4;YEAR:4": {
+    "name": {
+      "en": "CCCCYYYY (00012025)",
+      "cz": "CCCCRRRR (00012025)",
+      "sk": "CCCCRRRR (00012025)",
+      "hu": "CCCCÉÉÉÉ (00012025)",
+      "ua": "CCCCРРРР (00012025)"
+    }
+  }
+}

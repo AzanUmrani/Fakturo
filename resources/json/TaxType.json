@@ -1,0 +1,20 @@
+{
+  "YES": {
+    "name": {
+      "en": "Taxable person",
+      "cz": "Jsem plátce DPH",
+      "sk": "Som platiteľom DPH",
+      "hu": "ÁFA fizető",
+      "ua": "Платник ПДВ"
+    }
+  },
+  "NO": {
+    "name": {
+      "en": "Non-taxable person",
+      "cz": "Nejsem plátce DPH",
+      "sk": "Nie som platiteľom DPH",
+      "hu": "Nem vagyok ÁFA fizető",
+      "ua": "Не платник ПДВ"
+    }
+  }
+}
