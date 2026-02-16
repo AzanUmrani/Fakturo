@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 import ClientSelect from '../components/ClientSelect';
+import { createPreInvoice, updatePreInvoice } from '@/services/preInvoiceApi';
 
 interface PreInvoiceFormProps {
     isOpen: boolean;
@@ -30,31 +31,16 @@ export default function PreInvoiceForm({
     const { props } = usePage();
     const [selectedClient, setSelectedClient] = useState<Client | null>(null);
     const [selectedCompanyUuid, setSelectedCompanyUuid] = useState<string>(initialCompanyUuid);
+    const [originalCompanyUuid, setOriginalCompanyUuid] = useState<string>(initialCompanyUuid);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Get CSRF token from multiple sources
-    const getCsrfToken = (): string => {
-        // Try from meta tag first
-        let token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (token) return token;
-        
-        // Try from Inertia props
-        if (props && typeof props === 'object' && 'csrf_token' in props) {
-            return (props as any).csrf_token as string;
+    // Set CSRF token from Inertia props for API calls
+    useEffect(() => {
+        if ((props as any).csrf_token_value) {
+            (window as any).__csrf_token = (props as any).csrf_token_value;
         }
-        
-        // Try from cookie
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            const [name, value] = cookie.split('=');
-            if (name.trim() === 'XSRF-TOKEN') {
-                return decodeURIComponent(value);
-            }
-        }
-        
-        return '';
-    };
+    }, [(props as any).csrf_token_value]);
 
     // Check for flash error message from backend
     useEffect(() => {
@@ -95,6 +81,10 @@ export default function PreInvoiceForm({
             reset();
             setSelectedClient(null);
         } else if (isEditing && editingInvoice) {
+            // Set original company UUID - this is where the pre-invoice currently belongs
+            setOriginalCompanyUuid(initialCompanyUuid);
+            setSelectedCompanyUuid(initialCompanyUuid);
+            
             // Ensure items array is properly formatted
             const editItems = Array.isArray(editingInvoice.items) && editingInvoice.items.length > 0
                 ? editingInvoice.items.map(item => ({
@@ -128,6 +118,7 @@ export default function PreInvoiceForm({
             });
             setSelectedClient(editingInvoice.billed_to_client || null);
         } else {
+            setOriginalCompanyUuid(initialCompanyUuid);
             reset();
             setData({
                 number: `PI-${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-001`,
@@ -189,33 +180,10 @@ export default function PreInvoiceForm({
         };
 
         if (isEditing && editingInvoice) {
-            const csrfToken = getCsrfToken();
-            const headers: HeadersInit = {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            };
-            
-            // Add CSRF token if available
-            if (csrfToken) {
-                (headers as any)['X-CSRF-TOKEN'] = csrfToken;
-            }
-
-            fetch(`/api/user/company/${selectedCompanyUuid}/preinvoice/${editingInvoice.uuid}`, {
-                method: 'POST',
-                headers,
-                credentials: 'include',
-                body: JSON.stringify(submitData),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        return response.json().then(err => Promise.reject(err));
-                    }
-                    return response.json();
-                })
+            updatePreInvoice(originalCompanyUuid, editingInvoice.uuid, submitData)
                 .then(() => {
                     setIsSubmitting(false);
                     onOpenChange(false);
-                    // Refresh only the preInvoices data without full page reload
                     router.reload({ only: ['preInvoices'] });
                 })
                 .catch((error) => {
@@ -235,33 +203,10 @@ export default function PreInvoiceForm({
                     setErrorMessage(errorMsg);
                 });
         } else {
-            const csrfToken = getCsrfToken();
-            const headers: HeadersInit = {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            };
-            
-            // Add CSRF token if available
-            if (csrfToken) {
-                (headers as any)['X-CSRF-TOKEN'] = csrfToken;
-            }
-
-            fetch(`/api/user/company/${selectedCompanyUuid}/preinvoice`, {
-                method: 'POST',
-                headers,
-                credentials: 'include',
-                body: JSON.stringify(submitData),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        return response.json().then(err => Promise.reject(err));
-                    }
-                    return response.json();
-                })
+            createPreInvoice(selectedCompanyUuid, submitData)
                 .then(() => {
                     setIsSubmitting(false);
                     onOpenChange(false);
-                    // Refresh only the preInvoices data without full page reload
                     router.reload({ only: ['preInvoices'] });
                 })
                 .catch((error) => {
@@ -383,6 +328,7 @@ export default function PreInvoiceForm({
                                 id="company"
                                 value={selectedCompanyUuid}
                                 onChange={(e) => setSelectedCompanyUuid(e.target.value)}
+                                disabled={isEditing}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 required
                             >

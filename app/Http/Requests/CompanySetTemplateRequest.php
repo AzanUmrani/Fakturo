@@ -62,8 +62,7 @@ class CompanySetTemplateRequest extends FormRequest
 
             'preInvoice.formats.date' => 'string',
             'preInvoice.formats.decimal' => 'string',
-//            'preInvoice.formats.thousands' => 'string',
-            'preInvoice.formats.thousands' => '',
+            'preInvoice.formats.thousands' => 'string',
 
             'preInvoice.visibility.send_date' => 'boolean', /* TODO add require when apple approve old version ... */
             'preInvoice.visibility.due_date' => 'boolean',

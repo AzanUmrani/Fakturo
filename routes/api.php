@@ -28,7 +28,7 @@ Route::post('/login/social', [AuthController::class, 'loginSocial']);
 Route::post('/login/guest', [AuthController::class, 'loginGuest']);
 
 /* protected routes */
-Route::group(['middleware' => ['auth:sanctum'], 'pre'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     /* Auth */
     Route::post('/logout', [AuthController::class, 'logout']);
 

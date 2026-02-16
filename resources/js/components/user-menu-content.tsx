@@ -32,12 +32,12 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                         Companies
                     </Link>
                 </DropdownMenuItem> */}
-                {/* <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild>
                     <Link className="block w-full" href={route('profile.edit')} as="button" prefetch onClick={cleanup}>
                         <Settings className="mr-2" />
                         Settings
                     </Link>
-                </DropdownMenuItem> */}
+                </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>

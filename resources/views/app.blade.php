@@ -7,7 +7,7 @@
     {{-- store banners --}}
     <meta name="apple-itunes-app" content="app-id=6475118566">
     <meta name="google-play-app" content="app-id=app.fakturo">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
     {{-- Inline script to detect system dark mode preference and apply it immediately --}}
     <script>
         (function() {

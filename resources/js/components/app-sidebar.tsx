@@ -42,11 +42,11 @@ const mainNavItems: NavItem[] = [
         href: '/companies',
         icon: Building2,
     },
-    {
-        title: 'Setting',
-        href: '/settings/profile',
-        icon: Settings,
-    },
+    // {
+    //     title: 'Setting',
+    //     href: '/settings/profile',
+    //     icon: Settings,
+    // },
 ];
 
 const footerNavItems: NavItem[] = [

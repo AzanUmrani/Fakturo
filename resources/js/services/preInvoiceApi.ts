@@ -1,52 +1,35 @@
 const API_BASE_URL = '/api';
 
 const getCsrfToken = (): string => {
-    // Try to get from meta tag first (Laravel's standard approach)
-    const metaToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-    if (metaToken) {
-        console.log('[CSRF] Token found in meta tag');
-        return metaToken;
+    // Get from window object (set by PreInvoiceForm component)
+    if (window.__csrf_token) {
+        return window.__csrf_token;
     }
     
-    // Try to get from XSRF-TOKEN cookie (Set by Laravel's middleware)
+    // Fallback: Get from XSRF-TOKEN cookie
     const cookies = document.cookie.split('; ');
     for (const cookie of cookies) {
         if (cookie.startsWith('XSRF-TOKEN=')) {
-            const cookieValue = cookie.split('=')[1];
-            console.log('[CSRF] Token found in XSRF-TOKEN cookie');
             try {
-                return decodeURIComponent(cookieValue);
+                return decodeURIComponent(cookie.split('=')[1]);
             } catch (e) {
-                return cookieValue;
+                return cookie.split('=')[1] || '';
             }
         }
     }
     
-    // Fallback: Try laravel_session or other session-related cookies
-    for (const cookie of cookies) {
-        if (cookie.startsWith('XSRF-TOKEN') || cookie.startsWith('laravel_token')) {
-            console.log('[CSRF] Token found in fallback cookie:', cookie.split('=')[0]);
-            return cookie.split('=')[1] || '';
-        }
-    }
-    
-    console.warn('[CSRF] ⚠️ No CSRF token found! Check if meta tag or cookies are set.');
     return '';
 };
 
 const getHeaders = (includeContentType = true) => {
-    const csrfToken = getCsrfToken();
     const headers: Record<string, string> = {
         'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
     };
     
-    // Add CSRF token - Laravel checks both headers
+    const csrfToken = getCsrfToken();
     if (csrfToken) {
         headers['X-CSRF-TOKEN'] = csrfToken;
-        // Some Laravel configs also check X-XSRF-TOKEN
-        headers['X-XSRF-TOKEN'] = csrfToken;
-    } else {
-        console.warn('[Headers] ⚠️ CSRF token is missing! API request may fail.');
     }
     
     if (includeContentType) {

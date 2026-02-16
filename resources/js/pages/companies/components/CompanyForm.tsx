@@ -28,52 +28,37 @@ interface PageProps {
     locale: LocaleInfo;
 }
 
-// Helper function to get CSRF token from meta tag or cookie
+// Helper function to get CSRF token from window object
 const getCsrfToken = (): string => {
-    // Try to get from meta tag first (Laravel's standard approach)
-    const metaToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-    if (metaToken) {
-        console.log('[CSRF] Token found in meta tag');
-        return metaToken;
+    // Get from window object (set by component)
+    if (window.__csrf_token) {
+        return window.__csrf_token;
     }
     
-    // Try to get from XSRF-TOKEN cookie (Set by Laravel's middleware)
+    // Fallback: Get from XSRF-TOKEN cookie
     const cookies = document.cookie.split('; ');
     for (const cookie of cookies) {
         if (cookie.startsWith('XSRF-TOKEN=')) {
-            const cookieValue = cookie.split('=')[1];
-            console.log('[CSRF] Token found in XSRF-TOKEN cookie');
             try {
-                return decodeURIComponent(cookieValue);
+                return decodeURIComponent(cookie.split('=')[1]);
             } catch (e) {
-                return cookieValue;
+                return cookie.split('=')[1] || '';
             }
         }
     }
     
-    // Fallback: Try laravel_session or other session-related cookies
-    for (const cookie of cookies) {
-        if (cookie.startsWith('laravel_token') || cookie.includes('token')) {
-            console.log('[CSRF] Token found in fallback cookie:', cookie.split('=')[0]);
-            return cookie.split('=')[1] || '';
-        }
-    }
-    
-    console.warn('[CSRF] ⚠️ No CSRF token found! Check if meta tag or cookies are set.');
     return '';
 };
 
 const getHeaders = (includeContentType = true) => {
-    const csrfToken = getCsrfToken();
     const headers: Record<string, string> = {
         'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
     };
     
+    const csrfToken = getCsrfToken();
     if (csrfToken) {
         headers['X-CSRF-TOKEN'] = csrfToken;
-        headers['X-XSRF-TOKEN'] = csrfToken;
-    } else {
-        console.warn('[Headers] ⚠️ CSRF token is missing! API request may fail.');
     }
     
     if (includeContentType) {
@@ -81,20 +66,6 @@ const getHeaders = (includeContentType = true) => {
     }
     
     return headers;
-};
-
-const getFetchOptions = (method: 'GET' | 'POST' | 'DELETE' = 'GET', body?: any) => {
-    const options: RequestInit = {
-        method,
-        headers: getHeaders(),
-        credentials: 'include', // Include cookies for CSRF token
-    };
-    
-    if (body && (method === 'POST' || method === 'DELETE')) {
-        options.body = JSON.stringify(body);
-    }
-    
-    return options;
 };
 
 export default function CompanyForm({
@@ -106,7 +77,15 @@ export default function CompanyForm({
 }: CompanyFormProps) {
     const { __ } = useLang();
     const { locale } = usePage<PageProps>().props;
+    const { props } = usePage();
     const currentLocale = locale.current;
+
+    // Set CSRF token from Inertia props for API calls
+    useEffect(() => {
+        if ((props as any).csrf_token_value) {
+            (window as any).__csrf_token = (props as any).csrf_token_value;
+        }
+    }, [(props as any).csrf_token_value]);
 
     // Autofill states
     const [isAutofilling, setIsAutofilling] = useState(false);
@@ -451,7 +430,11 @@ export default function CompanyForm({
                     format: templateConfig.numbering.format,
                     due_date_additional_days: templateConfig.numbering.due_date_additional_days,
                 },
-                formats: templateConfig.formats,
+                formats: {
+                    date: templateConfig.formats.date,
+                    decimal: templateConfig.formats.decimal,
+                    thousands: templateConfig.formats.thousands || ' ',
+                },
                 visibility: templateConfig.visibility,
                 qr: templateConfig.qr,
                 preInvoice: templateConfig.preInvoice.enabled ? {
@@ -465,7 +448,11 @@ export default function CompanyForm({
                         format: templateConfig.preInvoice.numbering.format,
                         due_date_additional_days: templateConfig.preInvoice.numbering.due_date_additional_days,
                     },
-                    formats: templateConfig.preInvoice.formats,
+                    formats: {
+                        date: templateConfig.preInvoice.formats.date,
+                        decimal: templateConfig.preInvoice.formats.decimal,
+                        thousands: templateConfig.preInvoice.formats.thousands || ' ',
+                    },
                     visibility: templateConfig.preInvoice.visibility,
                     qr: templateConfig.preInvoice.qr,
                 } : undefined,
@@ -563,7 +550,11 @@ export default function CompanyForm({
                     format: templateConfig.numbering.format,
                     due_date_additional_days: templateConfig.numbering.due_date_additional_days,
                 },
-                formats: templateConfig.formats,
+                formats: {
+                    date: templateConfig.formats.date,
+                    decimal: templateConfig.formats.decimal,
+                    thousands: templateConfig.formats.thousands || ' ',
+                },
                 visibility: templateConfig.visibility,
                 qr: templateConfig.qr,
                 preInvoice: templateConfig.preInvoice.enabled ? {
@@ -577,7 +568,11 @@ export default function CompanyForm({
                         format: templateConfig.preInvoice.numbering.format,
                         due_date_additional_days: templateConfig.preInvoice.numbering.due_date_additional_days,
                     },
-                    formats: templateConfig.preInvoice.formats,
+                    formats: {
+                        date: templateConfig.preInvoice.formats.date,
+                        decimal: templateConfig.preInvoice.formats.decimal,
+                        thousands: templateConfig.preInvoice.formats.thousands || ' ',
+                    },
                     visibility: templateConfig.preInvoice.visibility,
                     qr: templateConfig.preInvoice.qr,
                 } : undefined,
@@ -1201,12 +1196,14 @@ export default function CompanyForm({
                                                 <Label htmlFor="inv_thousands_sep" className="text-xs">Thousands Separator</Label>
                                                 <Input
                                                     id="inv_thousands_sep"
-                                                    value={templateConfig.formats.thousands}
+                                                    value={templateConfig.formats.thousands || ' '}
                                                     onChange={(e) => setTemplateConfig({
                                                         ...templateConfig,
-                                                        formats: { ...templateConfig.formats, thousands: e.target.value }
+                                                        formats: { ...templateConfig.formats, thousands: e.target.value || ' ' }
                                                     })}
                                                     maxLength={1}
+                                                    placeholder=" "
+                                                    title="Thousands separator (space by default)"
                                                 />
                                             </div>
                                         </div>
@@ -1429,15 +1426,17 @@ export default function CompanyForm({
                                                         <Label htmlFor="pre_thousands_sep" className="text-xs">Thousands Separator</Label>
                                                         <Input
                                                             id="pre_thousands_sep"
-                                                            value={templateConfig.preInvoice.formats.thousands}
+                                                            value={templateConfig.preInvoice.formats.thousands || ' '}
                                                             onChange={(e) => setTemplateConfig({
                                                                 ...templateConfig,
                                                                 preInvoice: { 
                                                                     ...templateConfig.preInvoice, 
-                                                                    formats: { ...templateConfig.preInvoice.formats, thousands: e.target.value }
+                                                                    formats: { ...templateConfig.preInvoice.formats, thousands: e.target.value || ' ' }
                                                                 }
                                                             })}
                                                             maxLength={1}
+                                                            placeholder=" "
+                                                            title="Thousands separator (space by default)"
                                                         />
                                                     </div>
                                                 </div>

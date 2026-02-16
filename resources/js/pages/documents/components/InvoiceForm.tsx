@@ -32,8 +32,16 @@ export default function InvoiceForm({
     const { props } = usePage();
     const [selectedClient, setSelectedClient] = useState<Client | null>(null);
     const [selectedCompanyUuid, setSelectedCompanyUuid] = useState<string>(company?.uuid || '');
+    const [originalCompanyUuid, setOriginalCompanyUuid] = useState<string>(company?.uuid || '');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Set CSRF token from Inertia props for API calls
+    useEffect(() => {
+        if ((props as any).csrf_token_value) {
+            (window as any).__csrf_token = (props as any).csrf_token_value;
+        }
+    }, [(props as any).csrf_token_value]);
 
     // Check for flash error message from backend
     useEffect(() => {
@@ -74,6 +82,9 @@ export default function InvoiceForm({
             reset();
             setSelectedClient(null);
         } else if (isEditing && editingInvoice) {
+            // Set original company UUID
+            setOriginalCompanyUuid(company?.uuid || '');
+            
             // For editing, extract client ID from the billed_to_client object
             const billedClient = editingInvoice.billed_to_client;
             const clientId = billedClient?.id ? String(billedClient.id) : '';
@@ -97,6 +108,7 @@ export default function InvoiceForm({
             });
         } else {
             // For new invoice, set default values
+            setOriginalCompanyUuid(company?.uuid || '');
             reset();
             setData({
                 number: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-001`,
@@ -146,7 +158,7 @@ export default function InvoiceForm({
         };
 
         if (isEditing && editingInvoice) {
-            router.put(route('documents.invoices.update', { uuid: editingInvoice.uuid, companyUuid: selectedCompanyUuid }), submitData, {
+            router.put(route('documents.invoices.update', { companyUuid: originalCompanyUuid, id: editingInvoice.uuid }), submitData, {
                 onSuccess: () => {
                     setIsSubmitting(false);
                     onOpenChange(false);
@@ -270,6 +282,7 @@ export default function InvoiceForm({
                                 id="company"
                                 value={selectedCompanyUuid}
                                 onChange={(e) => setSelectedCompanyUuid(e.target.value)}
+                                disabled={isEditing}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 required
                             >

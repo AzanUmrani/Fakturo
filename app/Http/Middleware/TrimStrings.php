@@ -18,5 +18,7 @@ class TrimStrings extends Middleware
 
         'formats.decimal', // CompanySetTemplateRequest.php
         'formats.thousands', // CompanySetTemplateRequest.php
+        'preInvoice.formats.decimal', // CompanySetTemplateRequest.php
+        'preInvoice.formats.thousands', // CompanySetTemplateRequest.php
     ];
 }
